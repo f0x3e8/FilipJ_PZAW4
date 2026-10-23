@@ -122,40 +122,45 @@ const Albums: MusicProps[] = [
 
 function Movie({poster, name, year, rating} : MovieProps) {
     return (
-      <div>
-        <img src={poster} alt={name} height="200" width="150" />
-        <p>{name}</p>
-        <p>{year}</p>
-        <p>{rating}</p>
+      <div className="card" style={{ width: "18rem" }}>
+        <img src={poster} className="card-img-top" alt={name} />
+        <div className="card-body">
+          <h5 className="card-title">{name}</h5>
+          <h4 className="underTitle">{rating}</h4>
+          <p className="card-text">{year}</p>
+        </div>
         {rating > 8 && <p>Polecany</p>}
       </div>
     );
 }
 function Book({cover, title, release, pages} : BookProps) {
   return (
-    <div>
-      <img src={cover} alt={title} height="200" width="150"/>
-      <p>{title}</p>
-      <p>{release}</p>
-      <p>{pages}</p>
-      {release < 2000 && <p>Klasyka</p>}
+        <div className="card" style={{ width: "18rem" }}>
+        <img src={cover} className="card-img-top" alt={title} />
+        <div className="card-body">
+          <h5 className="card-title">{title}</h5>
+          <h4 className="underTitle">{release}</h4>
+          <p className="card-text">{pages}</p>
+        </div>
+        {release < 2000 && <p>Klasyka</p>}
     </div>
   );
 }
 function Music({album_cover, album_name, band, genre, album_year, song_list} : MusicProps) {
   return (
-    <div>
-      <img src={album_cover} alt={album_name} height="200" width="200" />
-      <p>{album_name}</p>
-      <p>{band}</p>
-      <p>{genre}</p>
-      <p>{album_year}</p>
-      <ol>
-          {song_list.map(({song_title}) => (
-            <li key={song_title}>{song_title}</li>
-          ))}
-      </ol>
-      {song_list.length == 0 && <p>Brak Utworów</p>}
+    <div className="card" style={{ width: "18rem" }}>
+        <img src={album_cover} className="card-img-top" alt={album_name} />
+        <div className="card-body">
+          <h5 className="card-title">{album_name}</h5>
+          <h4 className="underTitle">{band}</h4>
+          <p className="card-text">{genre} + {album_year}</p>
+          <ol>
+            {song_list.map(({song_title}) => (
+              <li key={song_title}>{song_title}</li>
+            ))}
+          </ol>
+        </div>
+        {song_list.length == 0 && <p>Brak Utworów</p>}
     </div>
   );
 }
@@ -166,6 +171,7 @@ function App() {
   const [isMusicOpen, setIsMusicOpen] = useState(true);
 
   return (
+    <div className="container">
     <div>
         <div>
             <h2 onClick={() => setIsMoviesOpen(!isMoviesOpen)}>
@@ -240,6 +246,7 @@ function App() {
             />
             ))}
         </div>
+    </div>
     </div>
   );
 }
