@@ -122,11 +122,12 @@ const Albums: MusicProps[] = [
 
 function Movie({poster, name, year, rating} : MovieProps) {
     return (
-      <div className="card" style={{ width: "18rem" }}>
+      <div className="card" style={{ width: "18rem" }} onClick={() => { console.log("Wybrano film: " + name); }}>
         <img src={poster} className="card-img-top" alt={name} />
         <div className="card-body">
           <h5 className="card-title">{name}</h5>
           <h4 className="underTitle">{rating}</h4>
+          <button onClick={() => { console.log("Pokaż szczegóły dla" + name); }}>Kliknij</button>
           <p className="card-text">{year}</p>
         </div>
         {rating > 8 && <p>Polecany</p>}
@@ -169,6 +170,7 @@ function App() {
   const [isMoviesOpen, setIsMoviesOpen] = useState(true);
   const [isBooksOpen, setIsBooksOpen] = useState(true);
   const [isMusicOpen, setIsMusicOpen] = useState(true);
+  const [isOtherOpen, setIsOtherOpen] = useState(true);
 
   return (
     <div className="container">
@@ -222,29 +224,35 @@ function App() {
         </div>
 
         <div>
-          {Movies.filter((movie) => movie.year > 2010).map((movie) => (
-            <Movie
-              key={movie.name}
-              poster={movie.poster}
-              name={movie.name}
-              year={movie.year}
-              rating={movie.rating}
-            />
-          ))}
-        </div>
+          <h2 onClick={() => setIsOtherOpen(!isOtherOpen)}>
+            {isOtherOpen ? "▾" : "▸"} Other
+          </h2>
 
-        <div>
-          {Albums.sort((a, b) => b.song_list.length - a.song_list.length).slice(0, 1).map((album) => (
-            <Music
-              key={album.album_name}
-              album_cover={album.album_cover}
-              album_name={album.album_name}
-              band={album.band}
-              genre={album.genre}
-              album_year={album.album_year}
-              song_list={album.song_list}
-            />
+          <div>
+            {isOtherOpen && Movies.filter((movie) => movie.year > 2010).map((movie) => (
+              <Movie
+                key={movie.name}
+                poster={movie.poster}
+                name={movie.name}
+                year={movie.year}
+                rating={movie.rating}
+              />
             ))}
+          </div>
+
+          <div>
+            {isOtherOpen && Albums.sort((a, b) => b.song_list.length - a.song_list.length).slice(0, 1).map((album) => (
+              <Music
+                key={album.album_name}
+                album_cover={album.album_cover}
+                album_name={album.album_name}
+                band={album.band}
+                genre={album.genre}
+                album_year={album.album_year}
+                song_list={album.song_list}
+              />
+              ))}
+          </div>
         </div>
     </div>
     </div>
