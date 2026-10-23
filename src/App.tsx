@@ -120,6 +120,14 @@ const Albums: MusicProps[] = [
       { song_title: "I Want You (She's So Heavy) 7:47 min" },
     ]}];
 
+function handleSongClick(song_title: string, album_name: string) {
+    console.log("Wybrano utwór: " + song_title +  " z " + album_name);
+  }
+
+function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  const value = event.target.value;
+  console.log("wpisano: " + value);
+}
 function Movie({poster, name, year, rating} : MovieProps) {
     return (
       <div className="card" style={{ width: "18rem" }} onClick={() => { console.log("Wybrano film: " + name); }}>
@@ -157,7 +165,7 @@ function Music({album_cover, album_name, band, genre, album_year, song_list} : M
           <p className="card-text">{genre} + {album_year}</p>
           <ol>
             {song_list.map(({song_title}) => (
-              <li key={song_title}>{song_title}</li>
+              <li key={song_title} onClick={() => {handleSongClick(song_title, album_name); }}>{song_title}</li>
             ))}
           </ol>
         </div>
@@ -179,7 +187,7 @@ function App() {
             <h2 onClick={() => setIsMoviesOpen(!isMoviesOpen)}>
                 {isMoviesOpen ? "▾" : "▸"} Movies
             </h2>
-
+            <input type="text" className="form-control "placeholder="Wpisz tytuł" id="movie-search" onChange={handleChange}/>
           {isMoviesOpen && Movies.sort((a, b) => a.name.localeCompare(b.name)).map((movie) => (
             <Movie
               poster={movie.poster}
@@ -194,6 +202,7 @@ function App() {
             <h2 onClick={() => setIsBooksOpen(!isBooksOpen)}>
                 {isBooksOpen ? "▾" : "▸"} Books
             </h2>
+            <input type="text" className="form-control "placeholder="Wpisz tytuł" id="book-search" onChange={handleChange}/>
 
           {isBooksOpen && Books.sort((a, b) => b.release - a.release).map((book) => (
             <Book
@@ -209,6 +218,7 @@ function App() {
           <h2 onClick={() => setIsMusicOpen(!isMusicOpen)}>
                 {isMusicOpen ? "▾" : "▸"} Music
           </h2>
+          <input type="text" className="form-control "placeholder="Wpisz tytuł" id="album-search" onChange={handleChange}/>
 
           { isMusicOpen && Albums.map((album) => (
             <Music
