@@ -124,10 +124,7 @@ function handleSongClick(song_title: string, album_name: string) {
     console.log("Wybrano utwór: " + song_title +  " z " + album_name);
   }
 
-function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-  const value = event.target.value;
-  console.log("wpisano: " + value);
-}
+
 function Movie({poster, name, year, rating} : MovieProps) {
     return (
       <div className="card" style={{ width: "18rem" }} onClick={() => { console.log("Wybrano film: " + name); }}>
@@ -179,6 +176,26 @@ function App() {
   const [isBooksOpen, setIsBooksOpen] = useState(true);
   const [isMusicOpen, setIsMusicOpen] = useState(true);
   const [isOtherOpen, setIsOtherOpen] = useState(true);
+  const [value, setValue] = useState("");
+
+  function handleMovieChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const inputValue = event.target.value;
+    setValue(inputValue);
+
+    console.log("wpisano: " + inputValue);
+  }
+
+    function handleBookChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const inputValue = event.target.value;
+
+    console.log("wpisano: " + inputValue);
+  }
+
+    function handleAlbumChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const inputValue = event.target.value;
+
+    console.log("wpisano: " + inputValue);
+  }
 
   return (
     <div className="container">
@@ -187,8 +204,8 @@ function App() {
             <h2 onClick={() => setIsMoviesOpen(!isMoviesOpen)}>
                 {isMoviesOpen ? "▾" : "▸"} Movies
             </h2>
-            <input type="text" className="form-control "placeholder="Wpisz tytuł" id="movie-search" onChange={handleChange}/>
-          {isMoviesOpen && Movies.sort((a, b) => a.name.localeCompare(b.name)).map((movie) => (
+            <input type="text" className="form-control "placeholder="Wpisz tytuł" id="movie-search" onChange={handleMovieChange}/>
+          {isMoviesOpen && Movies.filter(movie => movie.name.toLowerCase().includes(value.toLowerCase())).sort((a, b) => a.name.localeCompare(b.name)).map((movie) => (
             <Movie
               poster={movie.poster}
               name={movie.name}
@@ -202,7 +219,7 @@ function App() {
             <h2 onClick={() => setIsBooksOpen(!isBooksOpen)}>
                 {isBooksOpen ? "▾" : "▸"} Books
             </h2>
-            <input type="text" className="form-control "placeholder="Wpisz tytuł" id="book-search" onChange={handleChange}/>
+            <input type="text" className="form-control "placeholder="Wpisz tytuł" id="book-search" onChange={handleBookChange}/>
 
           {isBooksOpen && Books.sort((a, b) => b.release - a.release).map((book) => (
             <Book
@@ -218,7 +235,7 @@ function App() {
           <h2 onClick={() => setIsMusicOpen(!isMusicOpen)}>
                 {isMusicOpen ? "▾" : "▸"} Music
           </h2>
-          <input type="text" className="form-control "placeholder="Wpisz tytuł" id="album-search" onChange={handleChange}/>
+          <input type="text" className="form-control "placeholder="Wpisz tytuł" id="album-search" onChange={handleAlbumChange}/>
 
           { isMusicOpen && Albums.map((album) => (
             <Music
